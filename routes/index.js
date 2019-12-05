@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     res.send('hello')
 })
 router.use('/users', userRouter)
-router.use('/post', postRouter)
+router.use('/posts', postRouter)
 router.use('/comments', commentRouter)
 
 module.exports = router

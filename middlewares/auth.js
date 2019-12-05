@@ -1,17 +1,15 @@
-const { verifyToken } = require('./jwt')
+const { verifyToken } = require('../helpers/jwt')
 const User = require('../models/user')
+const Post = require('../models/post')
 
 function authentication (req, res, next){
     console.log('masuk authentication')
   try {
-    console.log('masuk try')
     let decodedToken = verifyToken(req.headers.token)
-    console.log(decodedToken)
-    User.findById(decodedToken.id)
+    User.findById(decodedToken._id)
       .then(user => {
         if(user){
           req.loggedUser = decodedToken
-          console.log('log' + req.loggedUser.id)
           next()
         }
         else{
@@ -26,4 +24,24 @@ function authentication (req, res, next){
 }
 
 
-module.exports = { authentication }
+function authorization (req, res, next){
+
+  let _id = req.params.postId
+  Post.findById(_id)
+    .then(post => {
+      if(!post){
+        next({ status: 404, message: 'Not Found' })
+      }
+      else if(post.userId == req.loggedUser._id){
+        next()
+      }
+      else{
+        next({ status: 403, message: 'Not Authorize' })
+      }
+    })
+    .catch(err => {
+      next({ status: 403, message: err })
+    })
+}
+
+module.exports = { authentication, authorization }

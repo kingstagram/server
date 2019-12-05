@@ -4,9 +4,9 @@ const gcsDelete = require('../helpers/gcsDelete')
 class PostController {
 
     static addPost(req, res, next) {
-        let userId = req.loggedUser.id
+        let userId = req.loggedUser._id
         let { caption } = req.body
-        // let imageUrl = req.file.cloudStoragePublicUrl
+        let imageUrl = req.body.file
     
         Post.create({
           userId, caption, imageUrl
@@ -26,6 +26,7 @@ class PostController {
     }
 
     static showPostUser(req, res, next) {
+      console.log(req.loggedUser._id)
         Post.find({userId: req.loggedUser._id})
             .then(posts => {
                 res.status(200).json(posts)
@@ -45,17 +46,17 @@ class PostController {
 
     static likeDislike(req, res, next) {
         const _id = req.params.postId;
-        const loginUser = req.loggedUser.id
+        const loginUser = req.loggedUser._id
         let pass = true
         Post.findById(_id)
           .then(post => {
             for (let i = 0; i < post.likes.length; i++) {
-              if (post.likes[i] == req.loggedUser.id) pass = false;
+              if (post.likes[i] == req.loggedUser._id) pass = false;
             }
             if (!pass) {
-              return Post.findByIdAndUpdate(id, { $pull: { likes: loginUser } });
+              return Post.findByIdAndUpdate(_id, { $pull: { likes: loginUser } });
             } else {
-              return Post.findByIdAndUpdate(id, { $push: { likes: loginUser } });
+              return Post.findByIdAndUpdate(_id, { $push: { likes: loginUser } });
             }
           })
           .then(() => {
@@ -70,7 +71,7 @@ class PostController {
         Post.findById(_id)
           .then(result => {
             // gcsDelete(result.imageUrl)
-            return Post.findByIdAndDelete(id)
+            return Post.findByIdAndDelete(_id)
           })
           .then(() => {
             res.status(200).json("Delete post Success!")
