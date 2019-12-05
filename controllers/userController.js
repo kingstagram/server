@@ -5,6 +5,7 @@ const { generateToken } = require('../helpers/jwt')
 class UserController {
 
     static register(req, res, next) {
+        console.log(req.body)
         User.create(req.body)
             .then(user => {
                 res.status(201).json(user)
@@ -24,7 +25,7 @@ class UserController {
                     email : user.email
                 }
                 let token = generateToken(payload)
-                res.status(200).json(token)
+                res.status(200).json({token})
             })
             .catch(next)
     }

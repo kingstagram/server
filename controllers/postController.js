@@ -6,7 +6,7 @@ class PostController {
     static addPost(req, res, next) {
         let userId = req.loggedUser.id
         let { caption } = req.body
-        let imageUrl = req.file.cloudStoragePublicUrl
+        // let imageUrl = req.file.cloudStoragePublicUrl
     
         Post.create({
           userId, caption, imageUrl
@@ -69,7 +69,7 @@ class PostController {
         let _id = req.params.postId
         Post.findById(_id)
           .then(result => {
-            gcsDelete(result.imageUrl)
+            // gcsDelete(result.imageUrl)
             return Post.findByIdAndDelete(id)
           })
           .then(() => {

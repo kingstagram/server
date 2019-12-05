@@ -31,7 +31,7 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan('dev'))
 app.use('/', router)
-// app.use(errorHandler)
+app.use(errorHandler)
 
 app.listen(port, _=> {
     console.log('listening port', port)
