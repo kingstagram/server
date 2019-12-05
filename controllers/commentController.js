@@ -3,9 +3,9 @@ const Comment = require('../models/comment')
 class CommentController {
 
     static add(req, res, next) {
-        const obj = req.body
-        obj.postId = req.params.postId
-        obj.userId = req.loggedUser._id
+        const obj = req.body;
+        obj.postId = req.params.postId;
+        obj.userId = req.loggedUser._id;
         Comment.create(obj)
             .then(comment => {
                 res.status(201).json(comment)
@@ -30,4 +30,4 @@ class CommentController {
     }
 }
 
-module.exports = CommentController
+module.exports = CommentController;
