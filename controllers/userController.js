@@ -16,7 +16,14 @@ class UserController {
         console.log(req.body)
         User.create(req.body)
             .then(user => {
-                res.status(201).json(user)
+                let payload = {
+                    _id : user._id,
+                    username : user.username,
+                    email : user.email
+                };
+                let token = generateToken(payload);
+                let username = user.username;
+                res.status(200).json({token, username});
             })
             .catch(next)
     }
@@ -24,16 +31,17 @@ class UserController {
     static login(req, res, next) {
         User.findOne({email: req.body.email})
             .then(user => {
-                if (!user) throw {message: 'invalid email/password'}
-                let isPassword = check(req.body.password, user.password)
-                if (!isPassword) throw {message: 'invalid email/password'}
+                if (!user) throw {message: 'invalid email/password'};
+                let isPassword = check(req.body.password, user.password);
+                if (!isPassword) throw {message: 'invalid email/password'};
                 let payload = {
                     _id : user._id,
                     username : user.username,
                     email : user.email
-                }
-                let token = generateToken(payload)
-                res.status(200).json({token})
+                };
+                let token = generateToken(payload);
+                let username = user.username;
+                res.status(200).json({token, username});
             })
             .catch(next)
     }

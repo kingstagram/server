@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const {Schema} = mongoose;
 
 const postSchema = new Schema({
     imageUrl: {
@@ -18,13 +18,13 @@ const postSchema = new Schema({
         type: String,
         required: [true, 'caption is required']
     }
-})
+});
 
-postSchema.pre('save', function(next){
+postSchema.pre('save', function (next) {
     this.Likes = [];
     next()
-  })
+});
 
 const Post = mongoose.model('Post', postSchema)
 
-module.exports = Post
+module.exports = Post;

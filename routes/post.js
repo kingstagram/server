@@ -13,11 +13,10 @@ const upload = gcsUpload({
     }
 });
 
-
 router.use(authentication);
 router.post('/add', upload.single('file'), PostController.addPost);
-router.get('/all', PostController.showAll);
 router.get('/mine', PostController.showPostUser);
+router.get('/all', PostController.showAll);
 router.put('/like/:postId', PostController.likeDislike);
 router.put('/:postId', authorization, PostController.update);
 router.delete('/:postId', authorization, PostController.delete);

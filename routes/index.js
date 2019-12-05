@@ -7,8 +7,8 @@ const commentRouter = require('./comment')
 router.get('/', (req, res) => {
     res.send('hello')
 })
-router.use('/users', userRouter)
-router.use('/posts', postRouter)
-router.use('/comments', commentRouter)
+router.use('/users', userRouter);
+router.use('/posts', postRouter);
+router.use('/comments', commentRouter);
 
 module.exports = router

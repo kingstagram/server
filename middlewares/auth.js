@@ -26,7 +26,7 @@ function authentication (req, res, next){
 
 function authorization (req, res, next){
 
-  let _id = req.params.postId
+  let _id = req.params.postId;
   Post.findById(_id)
     .then(post => {
       if(!post){
