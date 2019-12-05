@@ -19,7 +19,7 @@ const userSchema = new Schema({
 })
 
 function isUnique(value) {
-    User.findOne({email: value}) 
+    return User.findOne({email: value}) 
         .then (found => {
             if (found) return false
             else return true

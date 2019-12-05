@@ -8,14 +8,14 @@ const upload = gcsUpload({
       fileSize: 1e6 // in bytes
     },
     gcsConfig: {
-      keyFilename: '../keyfile.json',
+      keyFilename: './keyfile.json',
       bucketName: process.env.BUCKET_NAME
     }
   })
 
 
 router.use( authentication )
-router.post('/add', PostController.addPost)
+router.post('/add', upload.single('file'), PostController.addPost)
 router.get('/all', PostController.showAll)
 router.get('/mine', PostController.showPostUser)
 router.put('/like/:postId', PostController.likeDislike)

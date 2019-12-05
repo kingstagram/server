@@ -5,8 +5,8 @@ class PostController {
 
     static addPost(req, res, next) {
         let userId = req.loggedUser._id
-        let { caption, imageUrl } = req.body
-        // let imageUrl = req.file.cloudStoragePublicUrl
+        let { caption } = req.body
+        let imageUrl = req.body.file
     
         Post.create({
           userId, caption, imageUrl
