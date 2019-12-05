@@ -1,8 +1,16 @@
-const User = require('../models/user')
-const { check } = require('../helpers/bcrypt')
-const { generateToken } = require('../helpers/jwt')
+const User = require('../models/user');
+const { check } = require('../helpers/bcrypt');
+const { generateToken } = require('../helpers/jwt');
 
 class UserController {
+
+    static viewUser(req, res, next){
+        User.find({})
+            .then(user => {
+                res.status(200).json(user)
+            })
+            .catch(next)
+    }
 
     static register(req, res, next) {
         console.log(req.body)

@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const { Schema } = mongoose
-const { hash } = require('../helpers/bcrypt')
+mongoose = require('mongoose')
+const {Schema} = mongoose
+const {hash} = require('../helpers/bcrypt')
 
 const userSchema = new Schema({
     username: {
@@ -10,7 +10,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: [true, 'email is required'],
-        validate: [{validator: isUnique, message:'email already registered'}]
+        validate: [{validator: isUnique, message: 'email already registered'}]
     },
     password: {
         type: String,
@@ -19,14 +19,14 @@ const userSchema = new Schema({
 })
 
 function isUnique(value) {
-    User.findOne({email: value}) 
-        .then (found => {
+    return User.findOne({email: value})
+        .then(found => {
             if (found) return false
             else return true
         })
 }
 
-userSchema.pre('save', function(next){
+userSchema.pre('save', function (next) {
     this.password = hash(this.password)
     next()
 })
