@@ -1,15 +1,21 @@
 const User = require('../models/user');
-const { check } = require('../helpers/bcrypt');
-const { generateToken } = require('../helpers/jwt');
+const {check} = require('../helpers/bcrypt');
+const {generateToken} = require('../helpers/jwt');
 
 class UserController {
 
-    static viewUser(req, res, next){
-        User.find({})
-            .then(user => {
-                res.status(200).json(user)
-            })
-            .catch(next)
+    static viewUser(req, res, next) {
+        User.find({}).then(user => {
+            res.status(200).json(user)
+        }).catch(next)
+    }
+
+    static findUser(req, res, next) {
+        User.findOne({
+            _id: req.params.id
+        }).then(user => {
+            res.status(200).json(user)
+        }).catch(next)
     }
 
     static register(req, res, next) {
@@ -17,9 +23,9 @@ class UserController {
         User.create(req.body)
             .then(user => {
                 let payload = {
-                    _id : user._id,
-                    username : user.username,
-                    email : user.email
+                    _id: user._id,
+                    username: user.username,
+                    email: user.email
                 };
                 let token = generateToken(payload);
                 let username = user.username;
@@ -35,9 +41,9 @@ class UserController {
                 let isPassword = check(req.body.password, user.password);
                 if (!isPassword) throw {message: 'invalid email/password'};
                 let payload = {
-                    _id : user._id,
-                    username : user.username,
-                    email : user.email
+                    _id: user._id,
+                    username: user.username,
+                    email: user.email
                 };
                 let token = generateToken(payload);
                 let username = user.username;
