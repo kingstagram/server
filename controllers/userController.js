@@ -12,6 +12,14 @@ class UserController {
             .catch(next)
     }
 
+    static myProfile(req, res, next) {
+        User.findById(req.loggedUser._id)
+            .then(user => {
+                res.status(200).json(user)
+            })
+            .catch(next)
+    }
+
     static register(req, res, next) {
         console.log(req.body)
         User.create(req.body)
